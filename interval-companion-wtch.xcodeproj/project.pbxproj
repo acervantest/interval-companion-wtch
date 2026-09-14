@@ -18,6 +18,13 @@
 			remoteGlobalIDString = BDACABDD30511343004ACD09;
 			remoteInfo = "interval-companion-wtch Watch App";
 		};
+		BDACACBC305256A7004ACD09 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDACABD230511343004ACD09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BDACABDD30511343004ACD09;
+			remoteInfo = "interval-companion-wtch Watch App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +44,7 @@
 /* Begin PBXFileReference section */
 		BDACABD830511343004ACD09 /* interval-companion-wtch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "interval-companion-wtch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDACABDE30511343004ACD09 /* interval-companion-wtch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "interval-companion-wtch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDACACB8305256A7004ACD09 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,10 +53,22 @@
 			path = "interval-companion-wtch Watch App";
 			sourceTree = "<group>";
 		};
+		BDACACB9305256A7004ACD09 /* Unit Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Unit Tests";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BDACABDB30511343004ACD09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDACACB5305256A7004ACD09 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -62,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				BDACABE230511343004ACD09 /* interval-companion-wtch Watch App */,
+				BDACACB9305256A7004ACD09 /* Unit Tests */,
 				BDACABD930511343004ACD09 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +92,7 @@
 			children = (
 				BDACABD830511343004ACD09 /* interval-companion-wtch.app */,
 				BDACABDE30511343004ACD09 /* interval-companion-wtch Watch App.app */,
+				BDACACB8305256A7004ACD09 /* Unit Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +141,29 @@
 			productReference = BDACABDE30511343004ACD09 /* interval-companion-wtch Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BDACACB7305256A7004ACD09 /* Unit Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDACACBE305256A7004ACD09 /* Build configuration list for PBXNativeTarget "Unit Tests" */;
+			buildPhases = (
+				BDACACB4305256A7004ACD09 /* Sources */,
+				BDACACB5305256A7004ACD09 /* Frameworks */,
+				BDACACB6305256A7004ACD09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BDACACBD305256A7004ACD09 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BDACACB9305256A7004ACD09 /* Unit Tests */,
+			);
+			name = "Unit Tests";
+			packageProductDependencies = (
+			);
+			productName = "Unit Tests";
+			productReference = BDACACB8305256A7004ACD09 /* Unit Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -134,6 +179,10 @@
 					};
 					BDACABDD30511343004ACD09 = {
 						CreatedOnToolsVersion = 26.1.1;
+					};
+					BDACACB7305256A7004ACD09 = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = BDACABDD30511343004ACD09;
 					};
 				};
 			};
@@ -153,6 +202,7 @@
 			targets = (
 				BDACABD730511343004ACD09 /* interval-companion-wtch */,
 				BDACABDD30511343004ACD09 /* interval-companion-wtch Watch App */,
+				BDACACB7305256A7004ACD09 /* Unit Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -172,10 +222,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BDACACB6305256A7004ACD09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BDACABDA30511343004ACD09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDACACB4305256A7004ACD09 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -189,6 +253,11 @@
 			isa = PBXTargetDependency;
 			target = BDACABDD30511343004ACD09 /* interval-companion-wtch Watch App */;
 			targetProxy = BDACABE030511343004ACD09 /* PBXContainerItemProxy */;
+		};
+		BDACACBD305256A7004ACD09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BDACABDD30511343004ACD09 /* interval-companion-wtch Watch App */;
+			targetProxy = BDACACBC305256A7004ACD09 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -316,6 +385,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = "interval-companion-wtch";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -348,6 +418,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INFOPLIST_KEY_CFBundleDisplayName = "interval-companion-wtch";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -405,6 +476,51 @@
 			};
 			name = Release;
 		};
+		BDACACBF305256A7004ACD09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.actca.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/interval-companion-wtch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/interval-companion-wtch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Debug;
+		};
+		BDACACC0305256A7004ACD09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.actca.Unit-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/interval-companion-wtch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/interval-companion-wtch Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -431,6 +547,15 @@
 			buildConfigurations = (
 				BDACABF030511345004ACD09 /* Debug */,
 				BDACABF130511345004ACD09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDACACBE305256A7004ACD09 /* Build configuration list for PBXNativeTarget "Unit Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDACACBF305256A7004ACD09 /* Debug */,
+				BDACACC0305256A7004ACD09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
