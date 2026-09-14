@@ -10,6 +10,7 @@ import SwiftUI
 struct IntervalTimerView: View {
     @State private var store = IntervalTimerStore()
     @State private var isShowingConfig = false
+    @State private var runtimeManager = WatchRuntimeManager() // Monitors watch wrist states
     
     // Default values synced across to setup matrix
     @State private var workDuration: TimeInterval = 10
@@ -40,7 +41,7 @@ struct IntervalTimerView: View {
                             style: StrokeStyle(lineWidth: 2, lineCap: .round)
                         )
                         .rotationEffect(.degrees(-90))
-                        .animation(.linear(duration: 0.05), value: store.currentProgress)
+                        .animation(.linear(duration: 0.01), value: store.currentProgress)
                     
                     // 2. Focused central digital readouts
                     VStack(spacing: 2) {
@@ -85,13 +86,32 @@ struct IntervalTimerView: View {
             .controlSize(.small) // Fits micro layouts on small screens
         }
         .padding(.top, 4)
+        // CRUCIAL STEP: Intercept current timing state variables
+        .onChange(of: store.currentState) { _, newState in
+            handleRuntimeState(for: newState)
+        }
         .onAppear {
             loadTimerSettings()
         }
     }
     
+    /// Locks or unlocks background continuous execution depending on target fitness state
+    private func handleRuntimeState(for state: IntervalTimerState) {
+        if state == .running {
+            // Lock the system open to process drops in wrist posture cleanly
+            runtimeManager.activateBackgroundSession()
+        } else {
+            // State is paused, idle, or completed -> Let watchOS sleep normally
+            runtimeManager.deactivateBackgroundSession()
+        }
+    }
+    
     private func loadTimerSettings() {
-        store.setupTimer(workTime: workDuration, restTime: restDuration, cycles: totalCycles)
+        store.setupTimer(
+            workTime: workDuration,
+            restTime: restDuration,
+            cycles: totalCycles
+        )
     }
 }
 
