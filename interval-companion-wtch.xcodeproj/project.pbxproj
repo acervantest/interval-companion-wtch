@@ -47,22 +47,9 @@
 		BDACACB8305256A7004ACD09 /* Unit Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BD3A6F573057AA7500581868 /* Exceptions for "interval-companion-wtch Watch App" folder in "interval-companion-wtch Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"interval-companion-wtch-Watch-App-Info.plist",
-			);
-			target = BDACABDD30511343004ACD09 /* interval-companion-wtch Watch App */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BDACABE230511343004ACD09 /* interval-companion-wtch Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BD3A6F573057AA7500581868 /* Exceptions for "interval-companion-wtch Watch App" folder in "interval-companion-wtch Watch App" target */,
-			);
 			path = "interval-companion-wtch Watch App";
 			sourceTree = "<group>";
 		};

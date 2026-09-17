@@ -42,14 +42,14 @@ class IntervalTimerStore {
         min(totalCycles, (currentPhaseIndex / 2) + 1)
     }
     
-    func setupTimer(workTime: TimeInterval, restTime: TimeInterval, cycles: Int) {
+    func setupTimer(workTime: Int, restTime: Int, cycles: Int) {
         phases.removeAll()
         
         self.totalCycles = cycles
         
         for _ in 1...cycles {
-            phases.append(IntervalPhase(type: .work, duration: workTime))
-            phases.append(IntervalPhase(type: .rest, duration: restTime))
+            phases.append(IntervalPhase(type: .work, duration: TimeInterval(workTime)))
+            phases.append(IntervalPhase(type: .rest, duration: TimeInterval(restTime)))
         }
         
         resetTimer()

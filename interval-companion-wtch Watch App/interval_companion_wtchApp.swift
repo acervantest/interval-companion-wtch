@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct interval_companion_wtch_Watch_AppApp: App {
+    
+    @State private var store: IntervalTimerStore = .init()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            IntervalTimerView()
+                .environment(store)
         }
     }
 }

@@ -19,12 +19,14 @@ class WatchRuntimeManager: NSObject, WKExtendedRuntimeSessionDelegate {
         session = WKExtendedRuntimeSession()
         session?.delegate = self
         session?.start()
+        print("Starts the session to guarantee execution when the wrist drops")
     }
     
     /// Releases the execution lock, allowing watchOS to sleep normally
     func deactivateBackgroundSession() {
         session?.invalidate()
         session = nil
+        print("Releases the execution lock, allowing watchOS to sleep normally")
     }
     
     // MARK: - WKExtendedRuntimeSessionDelegate Requirements

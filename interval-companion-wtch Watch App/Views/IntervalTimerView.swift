@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct IntervalTimerView: View {
-    @State private var store = IntervalTimerStore()
-    @State private var isShowingConfig = false
+    //@State private var store = IntervalTimerStore()
+    @Environment(IntervalTimerStore.self) var store
+    @State private var isShowingConfig = true
     @State private var runtimeManager = WatchRuntimeManager() // Monitors watch wrist states
     
     // Default values synced across to setup matrix
-    @State private var workDuration: TimeInterval = 10
-    @State private var restDuration: TimeInterval = 5
-    @State private var totalCycles: Int = 2
+    @State private var workDuration: Int = 0
+    @State private var restDuration: Int = 0
+    @State private var totalCycles: Int = 0
     
     var body: some View {
         VStack(spacing: 8) {
@@ -91,7 +92,15 @@ struct IntervalTimerView: View {
             handleRuntimeState(for: newState)
         }
         .onAppear {
-            loadTimerSettings()
+           
+        }
+        .sheet(isPresented: $isShowingConfig, onDismiss: loadTimerSettings) {
+                IntervalTimerConfigView(
+                    isShowingConfig: $isShowingConfig,
+                    workDuration: $workDuration,
+                    restDuration: $restDuration,
+                    totalCycles: $totalCycles
+                )
         }
     }
     
@@ -116,5 +125,7 @@ struct IntervalTimerView: View {
 }
 
 #Preview {
+    @Previewable @State var store = IntervalTimerStore()
     IntervalTimerView()
+        .environment(store)
 }
