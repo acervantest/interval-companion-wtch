@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct interval_companion_wtch_Watch_AppApp: App {
@@ -16,6 +17,7 @@ struct interval_companion_wtch_Watch_AppApp: App {
         WindowGroup {
             IntervalTimerView()
                 .environment(store)
+                .modelContainer(for: [IntervalTimerPreset.self])
         }
     }
 }
