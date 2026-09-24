@@ -17,6 +17,8 @@ struct IntervalTimerConfigView: View {
     @Binding var restDuration: Int
     @Binding var totalCycles: Int
     
+    @State private var addNewPreset: Bool = false
+    
     @Query(sort: \IntervalTimerPreset.dateCreated, order: .reverse)
     private var presets: [IntervalTimerPreset]
     
@@ -24,10 +26,14 @@ struct IntervalTimerConfigView: View {
         workDuration == 0 || restDuration == 0 || totalCycles == 0
     }
     
+    private var isQueryEmpty: Bool {
+        presets.isEmpty
+    }
+    
     var body: some View {
         VStack {
-            if !presets.isEmpty {
-                List {
+            List {
+                if !isQueryEmpty && !addNewPreset {
                     ForEach(presets) { preset in
                         Button(action: {
                             workDuration = preset.work
@@ -36,7 +42,7 @@ struct IntervalTimerConfigView: View {
                             isShowingConfig = false // Instantly apply and exit sheet to save steps
                         }) {
                             VStack(alignment: .leading, spacing: 2) {
-                               Text(preset.name)
+                                Text(preset.name)
                                     .font(.system(.body, design: .rounded)).bold()
                                 Text("\(Int(preset.work))s / \(Int(preset.rest))s • \(preset.cycles)R")
                                     .font(.system(.footnote, design: .rounded))
@@ -52,44 +58,64 @@ struct IntervalTimerConfigView: View {
                             }
                         }
                     }
-                }
-                .listStyle(.carousel)
-                
-            }
-            
-            HStack {
-                Picker("Work", selection: $workDuration) {
-                    ForEach(0..<50, id: \.self) {
-                        Text("\($0)")
-                    }
-                }
-                Picker("Rest", selection: $restDuration) {
-                    ForEach(0..<50, id: \.self) {
-                        Text("\($0)")
-                    }
-                }
-                Picker("Cycles", selection: $totalCycles) {
-                    ForEach(0..<50, id: \.self) {
-                        Text("\($0)")
+                    
+                    if !isQueryEmpty {
+                        Button {
+                            addNewPreset = true
+                        } label: {
+                            Text("Add New Preset")
+                        }
                     }
                 }
             }
-            .frame(minHeight: 60)
-            
-            Button {
-                savePreset()
-                isShowingConfig = false
-            } label: {
-                Text("Stop Watch")
+            .listStyle(.carousel)
+            .overlay {
+                if isQueryEmpty || addNewPreset {
+                    VStack {
+                        HStack {
+                            Picker("Work", selection: $workDuration) {
+                                ForEach(0..<50, id: \.self) {
+                                    Text("\($0)")
+                                }
+                            }
+                            Picker("Rest", selection: $restDuration) {
+                                ForEach(0..<50, id: \.self) {
+                                    Text("\($0)")
+                                }
+                            }
+                            Picker("Cycles", selection: $totalCycles) {
+                                ForEach(0..<50, id: \.self) {
+                                    Text("\($0)")
+                                }
+                            }
+                        }
+                        
+                        Button {
+                            savePreset()
+                            isShowingConfig = false
+                        } label: {
+                            Text("Stop Watch")
+                        }
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.roundedRectangle)
+                        .tint(.orange)
+                        .disabled(isButtonDisabled)
+                    }
+                    .toolbar {
+                        if !isQueryEmpty {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button {
+                                    addNewPreset = false
+                                } label: {
+                                    Image(systemName: "xmark")
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.roundedRectangle)
-            .tint(.orange)
-            .disabled(isButtonDisabled)
-            .frame(maxHeight: 40)
-        
         }
-        .interactiveDismissDisabled(true)
+        //.interactiveDismissDisabled(true)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("", action: {})
@@ -129,7 +155,6 @@ struct IntervalTimerConfigView: View {
         configurations: ModelConfiguration(isStoredInMemoryOnly: true)
     )
     
-    
     // 2. Add sample data to display in the preview canvas
     let presets: [IntervalTimerPreset] = [
         IntervalTimerPreset(name: "Preset 1", work: 10, rest: 5, cycles: 8),
@@ -140,11 +165,13 @@ struct IntervalTimerConfigView: View {
         container.mainContext.insert(preset)
     }
     
-    return IntervalTimerConfigView(
-        isShowingConfig: $isShowingConfig,
-        workDuration: $workduration,
-        restDuration: $restduration,
-        totalCycles: $totalcycles
-    )
-    .modelContainer(container)
+    return NavigationStack {
+        IntervalTimerConfigView(
+            isShowingConfig: $isShowingConfig,
+            workDuration: $workduration,
+            restDuration: $restduration,
+            totalCycles: $totalcycles
+        )
+        .modelContainer(container)
+    }
 }

@@ -19,13 +19,11 @@ struct IntervalTimerView: View {
     @State private var totalCycles: Int = 0
     
     var body: some View {
-        VStack(spacing: 8) {
+        NavigationStack {
             // Core Timeline Processing Frame
-            TimelineView(
-                .animation(
-                    minimumInterval: 0.01,
-                    paused: store.currentState != .running
-                )
+            TimelineView(.animation(
+                minimumInterval: 0.01,
+                paused: store.currentState != .running)
             ) { context in
                 ZStack {
                     // 1. Thin adaptive circular ring track
@@ -67,26 +65,30 @@ struct IntervalTimerView: View {
                 .onChange(of: context.date) { _, newDate in
                     store.update(currentDate: newDate)
                 }
-            }
-            
-            // 3. Compact Control System
-            HStack(spacing: 12) {
-                if store.currentState == .running {
-                    Button(action: { store.pause() }) {
-                        Image(systemName: "pause.fill")
+                .toolbar {
+                    ToolbarItemGroup(placement: .bottomBar) {
+                        HStack {
+                            Button {
+                                isShowingConfig = true
+                            } label: {
+                                Image(systemName: "xmark")
+                            }
+                            
+                            Spacer()
+                            
+                            Button {
+                                store.currentState == .running ? store.pause() : store.start()
+                            } label: {
+                                Image(systemName: store.currentState == .running ? "pause" : "play")
+                            }
+                            .opacity(store.currentState == .completed ? 0 : 1)
+                        }
+                        .foregroundStyle(Color.orange)
                     }
-                    .tint(.orange)
-                } else {
-                    Button(action: { store.start() }) {
-                        Image(systemName: "play.fill")
-                    }
-                    .tint(.green)
                 }
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.small) // Fits micro layouts on small screens
         }
-        .padding(.top, 4)
+        //.padding(.top, 4)
         // CRUCIAL STEP: Intercept current timing state variables
         .onChange(of: store.currentState) { _, newState in
             handleRuntimeState(for: newState)
@@ -104,7 +106,7 @@ struct IntervalTimerView: View {
         }
     }
     
-    /// Locks or unlocks background continuous execution depending on target fitness state
+    // Locks or unlocks background continuous execution depending on target fitness state
     private func handleRuntimeState(for state: IntervalTimerState) {
         if state == .running {
             // Lock the system open to process drops in wrist posture cleanly
@@ -126,6 +128,8 @@ struct IntervalTimerView: View {
 
 #Preview {
     @Previewable @State var store = IntervalTimerStore()
-    IntervalTimerView()
-        .environment(store)
+    NavigationStack {
+        IntervalTimerView()
+            .environment(store)
+    }
 }
