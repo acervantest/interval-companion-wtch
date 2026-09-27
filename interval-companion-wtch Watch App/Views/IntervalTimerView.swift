@@ -67,7 +67,6 @@ struct IntervalTimerView: View {
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
-                        HStack {
                             Button {
                                 withAnimation {
                                     store.resetTimer()
@@ -76,6 +75,7 @@ struct IntervalTimerView: View {
                             } label: {
                                 Image(systemName: "xmark")
                             }
+                            .foregroundStyle(Color.orange)
                             
                             Spacer()
                             
@@ -86,7 +86,7 @@ struct IntervalTimerView: View {
                                             store.start()
                                         }
                                 case .running:
-                                        withAnimation{
+                                        withAnimation {
                                             store.pause()
                                         }
                                 case .completed:
@@ -94,20 +94,20 @@ struct IntervalTimerView: View {
                                 }
                             } label: {
                                 switch store.currentState {
-                                case .idle, .paused:
-                                    Image(systemName: "play")
+                                case .idle, .paused, .completed:
+                                        Image(systemName: "play")
+                                            .id("idle-state")
                                 case .running:
                                         Image(systemName: "pause")
-                                case .completed:
-                                        Image(systemName: "play")
+                                            .id("pause-state")
                                 }
                             }
                             .contentTransition(.identity)
                             //.transition(.opacity)
                             .disabled(store.currentState == .completed)
-                        }
-                        .foregroundStyle(Color.orange)
+                            .foregroundStyle(Color.orange)
                     }
+                    
                 }
             }
         }
@@ -129,7 +129,7 @@ struct IntervalTimerView: View {
         }
     }
     
-    // Locks or unlocks background continuous execution depending on target fitness state
+    /// Locks or unlocks background continuous execution depending on target fitness state
     private func handleRuntimeState(for state: IntervalTimerState) {
         if state == .running {
             // Lock the system open to process drops in wrist posture cleanly

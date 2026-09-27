@@ -98,6 +98,7 @@ struct IntervalTimerConfigView: View {
                         }
                         .buttonStyle(.bordered)
                         .buttonBorderShape(.roundedRectangle)
+                        .padding(.vertical, 4)
                         .tint(.orange)
                         .disabled(isButtonDisabled)
                     }
