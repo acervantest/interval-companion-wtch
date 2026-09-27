@@ -69,7 +69,10 @@ struct IntervalTimerView: View {
                     ToolbarItemGroup(placement: .bottomBar) {
                         HStack {
                             Button {
-                                isShowingConfig = true
+                                withAnimation {
+                                    store.resetTimer()
+                                    isShowingConfig = true
+                                }
                             } label: {
                                 Image(systemName: "xmark")
                             }
@@ -77,11 +80,31 @@ struct IntervalTimerView: View {
                             Spacer()
                             
                             Button {
-                                store.currentState == .running ? store.pause() : store.start()
+                                switch store.currentState {
+                                case .idle, .paused:
+                                        withAnimation {
+                                            store.start()
+                                        }
+                                case .running:
+                                        withAnimation{
+                                            store.pause()
+                                        }
+                                case .completed:
+                                    break
+                                }
                             } label: {
-                                Image(systemName: store.currentState == .running ? "pause" : "play")
+                                switch store.currentState {
+                                case .idle, .paused:
+                                    Image(systemName: "play")
+                                case .running:
+                                        Image(systemName: "pause")
+                                case .completed:
+                                        Image(systemName: "play")
+                                }
                             }
-                            .opacity(store.currentState == .completed ? 0 : 1)
+                            .contentTransition(.identity)
+                            //.transition(.opacity)
+                            .disabled(store.currentState == .completed)
                         }
                         .foregroundStyle(Color.orange)
                     }
