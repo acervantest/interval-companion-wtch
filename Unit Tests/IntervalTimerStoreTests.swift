@@ -87,38 +87,60 @@ struct IntervalTimerStoreTests {
         #expect(abs(store.timeRemaining - 9.9) < 0.1) // 0.1s overflow correctly subtracted
     }
     
+    @Test("Timer display updates correctly", arguments: [
+        (work: 45, rest: 15, cycles: 2, expectedString: "00:40"),
+        (work: 10, rest: 5, cycles: 3, expectedString: "00:05"),
+        (work: 90, rest: 20, cycles: 4, expectedString: "01:25")
+    ])
+    func displayUpdates(expectedWork: Int, expectedRest: Int, expectedCycles: Int, expectedString: String) {
+        
+        store.setupTimer(workTime: expectedWork, restTime: expectedRest, cycles: expectedCycles)
+        
+        let startDate = Date()
+        store.start()
+        
+        // Simulate a TimelineView refresh exactly 5.5 seconds later
+        let futureDate = startDate.addingTimeInterval(5.7)
+        store.update(currentDate: futureDate)
+        
+        #expect(store.display == expectedString)
+    }
+    
     // MARK: - Parameterized Data-Driven Tests
        
    // This allows testing multiple workout variations without repeating code blocks
    @Test("Workout completions correctly mark states across diverse timeline durations", arguments: [
-       (work: 10.0, rest: 5.0, cycles: 1, totalTime: 15.0),
-       (work: 20.0, rest: 10.0, cycles: 3, totalTime: 90.0),
-       (work: 45.0, rest: 15.0, cycles: 4, totalTime: 240.0)
+       (work: 10, rest: 5, cycles: 1, totalTime: 15),
+       (work: 20, rest: 10, cycles: 3, totalTime: 90),
+       (work: 45, rest: 15, cycles: 4, totalTime: 240)
    ])
-   func workoutCompletions(expectedWork: TimeInterval, expectedRest: TimeInterval, expectedCycles: Int, totalTime: TimeInterval) {
+   func workoutCompletions(expectedWork: Int, expectedRest: Int, expectedCycles: Int, totalTime: Int) {
        
        store.setupTimer(workTime: expectedWork, restTime: expectedRest, cycles: expectedCycles)
        
        var startDate = Date()
        store.start()
        
+       let expectedWorkTI = TimeInterval(expectedWork)
+       let expectedRestTI = TimeInterval(expectedRest)
+       
        // Leap past entire session time boundary safely
        for _ in 1...expectedCycles {
-           let executionEndDate = startDate.addingTimeInterval(expectedWork + 0.6)
+           let executionEndDate = startDate.addingTimeInterval(expectedWorkTI + 0.6)
            store.update(currentDate: executionEndDate)
            // Then
            #expect(store.currentState == .running)
-           #expect(store.timeRemaining == expectedRest)
+           #expect(store.timeRemaining == expectedRestTI)
            #expect(store.currentPhase?.type == .rest)
-           #expect(store.currentPhase?.duration == expectedRest)
+           #expect(store.currentPhase?.duration == expectedRestTI)
            
-           let restEndDate = executionEndDate.addingTimeInterval(expectedRest + 0.6)
+           let restEndDate = executionEndDate.addingTimeInterval(expectedRestTI + 0.6)
            store.update(currentDate: restEndDate)
            
            if store.currentState == .running {
-               #expect(store.timeRemaining == expectedWork)
+               #expect(store.timeRemaining == expectedWorkTI)
                #expect(store.currentPhase?.type == .work)
-               #expect(store.currentPhase?.duration == expectedWork)
+               #expect(store.currentPhase?.duration == expectedWorkTI)
            }
            
            startDate = restEndDate

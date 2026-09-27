@@ -55,6 +55,29 @@ class IntervalTimerStore {
         resetTimer()
     }
     
+    var display: String {
+        get {
+            let roundedUp = Int(timeRemaining.rounded(.up))
+            return formatSeconds(roundedUp)
+        }
+    }
+    
+    private func formatSeconds(_ seconds: Int) -> String {
+        if seconds <= 0 {
+            return "00:00"
+        }
+        
+        let hh: Int = seconds / 3600
+        let mm: Int = (seconds % 3600) / 60
+        let ss: Int = seconds % 60
+        
+        if hh > 0 {
+            return String(format: "%02d:%02d:%02d", hh, mm, ss)
+        } else {
+            return String(format: "%02d:%02d", mm, ss)
+        }
+    }
+    
     // Controls
     
     func start() {

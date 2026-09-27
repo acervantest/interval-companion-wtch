@@ -49,8 +49,7 @@ struct IntervalTimerView: View {
                                 .font(.system(.caption2, design: .rounded)).bold()
                                 .foregroundColor(phase.type.color)
                             
-                            Text(String(format: "%.1f", max(0, store.timeRemaining)))
-                                .font(.system(size: 34, weight: .bold, design: .monospaced))
+                            Display(value: store.display)
                             
                             Text("R \(store.currentCycle)/\(store.totalCycles)")
                                 .font(.system(.footnote, design: .rounded))
