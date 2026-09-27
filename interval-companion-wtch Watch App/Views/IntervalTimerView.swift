@@ -118,7 +118,7 @@ struct IntervalTimerView: View {
         .onAppear {
            
         }
-        .sheet(isPresented: $isShowingConfig, onDismiss: loadTimerSettings) {
+        .sheet(isPresented: $isShowingConfig, onDismiss: setupTimerCallbacks) {
                 IntervalTimerConfigView(
                     isShowingConfig: $isShowingConfig,
                     workDuration: $workDuration,
@@ -139,12 +139,30 @@ struct IntervalTimerView: View {
         }
     }
     
-    private func loadTimerSettings() {
+    private func setupTimerCallbacks() {
         store.setupTimer(
             workTime: workDuration,
             restTime: restDuration,
             cycles: totalCycles
         )
+        
+        // Define haptic vibration assignments
+        store.onPhaseChange = { nextPhaseType in
+            guard let nextPhaseType else {
+                // Workout Completed completely -> Long celebratory fan-fare pattern
+                WKInterfaceDevice.current().play(.success)
+                return
+            }
+            
+            switch nextPhaseType {
+            case .work:
+                // Starting a Work Interval -> Aggressive double-tap pattern
+                WKInterfaceDevice.current().play(.start)
+            case .rest:
+                // Starting a Rest Interval -> Subtle calming triple-click pattern
+                WKInterfaceDevice.current().play(.directionDown)
+            }
+        }
     }
 }
 

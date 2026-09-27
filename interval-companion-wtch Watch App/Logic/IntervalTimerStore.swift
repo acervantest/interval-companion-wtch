@@ -30,6 +30,9 @@ class IntervalTimerStore {
     // Tracking precise elapsed time
     private var lastTickDate: Date?
     
+    // Core callback event used to bridge logic events out to haptic drivers
+    var onPhaseChange: ((IntervalType?) -> Void)?
+    
     var currentPhase: IntervalPhase? {
         guard phases.indices.contains(currentPhaseIndex) else { return nil }
         return phases[currentPhaseIndex]
@@ -119,12 +122,15 @@ class IntervalTimerStore {
         if currentPhaseIndex < phases.count {
             // Move to next work/rest phase
             timeRemaining = phases[currentPhaseIndex].duration
-            // Optional: Add haptic/audio feedback here
+            // Notify view that we transitioned (Passing the active type)
+            onPhaseChange?(phases[currentPhaseIndex].type)
         } else {
             // All intervals done
             currentState = .completed
             timeRemaining = 0
             lastTickDate = nil
+            // Passing nil indicates the entire workout sequence finished
+            onPhaseChange?(nil)
         }
     }
     
